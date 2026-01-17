@@ -1,9 +1,21 @@
 import { useState } from "react";
 
-const AddProjectModal = ({ onClose }) => {
+const AddProjectModal = ({ onClose, onAddProject }) => {
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [projectStatus, setProjectStatus] = useState("Planned");
+
+    const handleSumbit = (e) => {
+        e.preventDefault();
+        onAddProject(
+            {
+                projectName,
+                projectDescription,
+                projectStatus
+            }
+        )
+        onClose()
+    }
 
   return (
     <div className="fixed bg-black/50 inset-0 flex items-center justify-center" onClick={onClose}>
@@ -21,7 +33,7 @@ const AddProjectModal = ({ onClose }) => {
                 </div>
                 <div className="flex justify-end items-center gap-3 mt-4">
                     <button className="px-4 py-2 border rounded-lg cursor-pointer" type="button" onClick={onClose}>Cancel</button>
-                    <button className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white cursor-pointer" type="submit">Add Project</button>
+                    <button className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white cursor-pointer" type="submit" onClick={handleSumbit}>Add Project</button>
                 </div>
             </form>
         </div>
