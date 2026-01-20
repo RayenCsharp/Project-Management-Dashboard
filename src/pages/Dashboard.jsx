@@ -4,28 +4,8 @@ import StatCard from '../components/StatCard.jsx'
 import ProjectCard from '../components/ProjectCard.jsx'
 import { useState } from 'react'
 
-const Dashboard = () => {
+const Dashboard = ({projects, setProjects}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [projects, setProjects] = useState([
-    {
-        id: 1,
-        name: "Website Redesign",
-        description: "Redesign the corporate website to improve UX.",
-        status: "In Progress",
-    },
-    {
-        id: 2,
-        name: "Mobile App Development",
-        description: "Develop a mobile app for e-commerce.",
-        status: "Planned",
-    },
-    {
-        id: 3,
-        name: "Marketing Campaign",
-        description: "Launch a summer marketing campaign.",
-        status: "Completed",
-    },
-    ]);
 
     const addProject = (newProject) => {
         setProjects((prev) => [...prev, { 
@@ -37,10 +17,10 @@ const Dashboard = () => {
     }
 
     return (
-        <>
+        <div className="min-h-screen bg-gray-100">
             <Navbar onAddProject={() => setIsModalOpen(true)} />
             {isModalOpen && <AddProjectModal onClose={() => setIsModalOpen(false)} onAddProject={addProject} />}
-            <main className="p-6 bg-gray-100 min-h-screen">
+            <main className="p-6">
                 <div>
                     <h2 className="text-2xl font-bold mt-6 mb-4 px-6">Welcome to your Dashboard</h2>
                     <p className="text-gray-600 px-6">Here you can manage your projects and track their progress.</p>
@@ -69,14 +49,22 @@ const Dashboard = () => {
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {projects.map((project) => (
+                        {projects.slice(-3).reverse().map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}
+                        {
+                            projects.length > 3 && (
+                            <div className="col-span-full text-center mt-4">
+                                <button className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 cursor-pointer">
+                                    View All Projects
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )}
                 </div>
             </main>
-        </>
+        </div>
     )
 }
 export default Dashboard;
