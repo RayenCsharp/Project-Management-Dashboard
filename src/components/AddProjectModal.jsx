@@ -40,7 +40,7 @@ const AddProjectModal = ({ onClose, onAddProject }) => {
                     </select>
                 </div>
                 <div className="flex justify-end items-center gap-3 mt-4">
-                    <button className="px-4 py-2 border rounded-lg cursor-pointer" type="button" onClick={() => { onClose(); resetForm(); }}>Cancel</button>
+                    <button className="px-4 py-2 border rounded-lg cursor-pointer hover:bg-gray-100" type="button" onClick={() => { onClose(); resetForm(); }}>Cancel</button>
                     <button className="px-4 py-2 rounded-lg bg-blue-500 hover:bg-blue-600 text-white cursor-pointer disabled:bg-red-500 disabled:cursor-not-allowed" type="submit" disabled={!projectName || !projectDescription}>{(!projectName || !projectDescription) ? "Fill required fields" : "Add Project"}</button>
                 </div>
             </form>

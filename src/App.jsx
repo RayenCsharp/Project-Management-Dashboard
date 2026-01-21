@@ -1,6 +1,7 @@
 import './App.css'
 import { useState } from 'react'
 import Dashboard from './pages/Dashboard.jsx';
+import Projects from './pages/Projects.jsx';
 
 function App() {
   const [projects, setProjects] = useState([
@@ -14,7 +15,7 @@ function App() {
         id: 2,
         name: "Mobile App Development",
         description: "Develop a mobile app for e-commerce.",
-        status: "Planned",
+        status: "Completed",
     },
     {
         id: 3,
@@ -25,7 +26,8 @@ function App() {
     ]);
   return (
     <>
-      <Dashboard projects={projects} setProjects={setProjects} />
+      {/* <Dashboard projects={projects} setProjects={setProjects} /> */}
+      <Projects projects={projects} setProjects={setProjects} />
     </>
   )
 }
