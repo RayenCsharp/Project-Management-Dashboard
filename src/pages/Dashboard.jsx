@@ -2,9 +2,9 @@ import AddProjectModal from '../components/AddProjectModal.jsx'
 import Navbar from '../components/Navbar.jsx'
 import StatCard from '../components/StatCard.jsx'
 import ProjectCard from '../components/ProjectCard.jsx'
-import { useState } from 'react'
+import { use, useState } from 'react'
 
-const Dashboard = ({projects, setProjects}) => {
+const Dashboard = ({ projects, setProjects }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const addProject = (newProject) => {
@@ -18,7 +18,6 @@ const Dashboard = ({projects, setProjects}) => {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <Navbar onAddProject={() => setIsModalOpen(true)} />
             {isModalOpen && <AddProjectModal onClose={() => setIsModalOpen(false)} onAddProject={addProject} />}
             <main className="p-6">
                 <div>
@@ -48,7 +47,7 @@ const Dashboard = ({projects, setProjects}) => {
                         </button>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
                         {projects.slice(-3).reverse().map((project) => (
                             <ProjectCard key={project.id} project={project} />
                         ))}

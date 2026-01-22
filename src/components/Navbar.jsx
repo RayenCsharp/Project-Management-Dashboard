@@ -1,12 +1,14 @@
+import { NavLink } from "react-router-dom";
+
 const Navbar = ({ onAddProject }) => {
     return (
-        <nav className="flex items-center justify-between py-4 px-6 bg-white shadow-sm cursor-default">   
-            <h1 className="text-2xl font-bold text-blue-500">ProjectManager</h1>
-            <div className="flex justify-between items-center gap-6">
-                <a className="hover:text-blue-600" href="#">Dashboard</a>
-                <a className="hover:text-blue-600" href="#">Projects</a>
+        <nav className="flex flex-col sm:flex-row items-center justify-between gap-4 py-4 px-6 bg-white shadow-sm">   
+            <h1 className="text-xl font-bold text-blue-500 sm:text-2xl cursor-default">ProjectManager</h1>
+            <div className="flex gap-4 sm:gap-6 text-sm sm:text-base">
+                <NavLink to="/" className={({ isActive }) => isActive ? "text-blue-600 font-semibold" : "hover:text-blue-600"}>Dashboard</NavLink>
+                <NavLink to="/projects" className={({ isActive }) => isActive ? "text-blue-600 font-semibold" : "hover:text-blue-600"}>Projects</NavLink>
             </div>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded cursor-pointer" onClick={onAddProject}>Add Project</button>
+            <button className="bg-blue-500 hover:bg-blue-700 text-white font-semibold text-sm sm:text-base py-2 px-3 sm:px-4 rounded" onClick={onAddProject}>Add Project</button>
         </nav>
     );
 };

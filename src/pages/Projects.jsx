@@ -18,7 +18,6 @@ const Projects = ({ projects, setProjects }) => {
         const filteredProjects = selectedStatus ? projects.filter(p => p.status === selectedStatus) : projects;
     return (
         <div className="min-h-screen bg-gray-100">
-            <Navbar onAddProject={() => setIsModalOpen(true)} />
             {isModalOpen && <AddProjectModal onClose={() => setIsModalOpen(false)} onAddProject={addProject} />}
             <main className="p-6">
                 <div className="mb-6 ">
@@ -53,7 +52,7 @@ const Projects = ({ projects, setProjects }) => {
                     filteredProjects.length === 0 ? (
                         <p className="text-gray-600 mt-6">No projects match this filter.</p>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
                             {filteredProjects.map((project) => (
                             <ProjectCard key={project.id} project={project} />
                             ))}
