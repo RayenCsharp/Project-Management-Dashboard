@@ -12,12 +12,14 @@ const Projects = ({ projects, setProjects }) => {
                 id: Date.now(),
                 name: newProject.projectName,
                 description: newProject.projectDescription,
-                status: newProject.projectStatus
+                status: newProject.projectStatus,
+                createdAt: new Date(),
+                tasks: []
             }]);
         }
         const filteredProjects = selectedStatus ? projects.filter(p => p.status === selectedStatus) : projects;
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div>
             {isModalOpen && <AddProjectModal onClose={() => setIsModalOpen(false)} onAddProject={addProject} />}
             <main className="p-6">
                 <div className="mb-6 ">

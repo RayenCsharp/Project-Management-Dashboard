@@ -1,3 +1,4 @@
+import { Navigate, useNavigate } from 'react-router-dom'
 import AddProjectModal from '../components/AddProjectModal.jsx'
 import Navbar from '../components/Navbar.jsx'
 import StatCard from '../components/StatCard.jsx'
@@ -6,18 +7,21 @@ import { use, useState } from 'react'
 
 const Dashboard = ({ projects, setProjects }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     const addProject = (newProject) => {
         setProjects((prev) => [...prev, { 
             id: Date.now(),
             name: newProject.projectName,
             description: newProject.projectDescription,
-            status: newProject.projectStatus
+            status: newProject.projectStatus,
+            createdAt: new Date(),
+            tasks: []
         }]);
     }
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div>
             {isModalOpen && <AddProjectModal onClose={() => setIsModalOpen(false)} onAddProject={addProject} />}
             <main className="p-6">
                 <div>
@@ -54,7 +58,7 @@ const Dashboard = ({ projects, setProjects }) => {
                         {
                             projects.length > 3 && (
                             <div className="col-span-full text-center mt-4">
-                                <button className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 cursor-pointer">
+                                <button className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 cursor-pointer" onClick={() => navigate('/projects')}>
                                     View All Projects
                                 </button>
                             </div>
