@@ -1,6 +1,6 @@
 import './App.css'
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route} from 'react-router-dom';
+import { Routes, Route, useLocation} from 'react-router-dom';
 import Dashboard from './pages/Dashboard.jsx';
 import Projects from './pages/Projects.jsx';
 import Navbar from './components/Navbar.jsx';
@@ -8,6 +8,8 @@ import AddProjectModal from './components/AddProjectModal.jsx';
 import ProjectDetails from './pages/ProjectDetails.jsx';
 
 function App() {
+  const location = useLocation();
+  const hideNavbar = location.pathname.startsWith("/projects/");
   const [projects, setProjects] = useState([
     {
       id: 1,
@@ -57,30 +59,26 @@ function App() {
             );
     }
   return (
-    <>
-      <BrowserRouter>
-          <div className="min-h-screen bg-gray-100">
-            <Navbar onAddProject={() => setIsModalOpen(true)}/>
-            {isModalOpen && <AddProjectModal onClose={() => setIsModalOpen(false)} onAddProject={addProject} />}
-            <Routes>
-              <Route 
-                path="/" 
-                element={<Dashboard projects={projects} setProjects={setProjects}/>} 
-              />
-              <Route 
-                path="/projects" 
-                element={
-                  <Projects 
-                    projects={projects} 
-                    setProjects={setProjects} 
-                  />
-                } 
-              />
-              <Route path="/projects/:id" element={<ProjectDetails projects={projects} />} />
-            </Routes>
-          </div>
-      </BrowserRouter>
-    </>
+    <div className="min-h-screen bg-gray-100">
+      {!hideNavbar && <Navbar onAddProject={() => setIsModalOpen(true)}/>}
+      {isModalOpen && <AddProjectModal onClose={() => setIsModalOpen(false)} onAddProject={addProject} />}
+      <Routes>
+        <Route 
+          path="/" 
+          element={<Dashboard projects={projects} setProjects={setProjects}/>} 
+        />
+        <Route 
+          path="/projects" 
+          element={
+            <Projects 
+              projects={projects} 
+              setProjects={setProjects} 
+            />
+          } 
+        />
+        <Route path="/projects/:id" element={<ProjectDetails projects={projects} />} />
+      </Routes>
+    </div>
   )
 }
 

@@ -13,10 +13,13 @@ const ProjectDetails = ({ projects }) => {
     }
     return (
          <div className="p-6 max-w-4xl mx-auto">
-            <button
-                className="mb-6 inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+            <div className="flex items-center gap-4 mb-6">
+                <button
+                className="gap-2 bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition"
                 onClick={() => navigate(-1)}
             >← Back</button>
+            <h2 className="text-2xl font-bold px-6">Project Details</h2>
+            </div>
             <div className="bg-white rounded-xl shadow-md p-6 space-y-4">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4">
                     <h1 className="text-3xl font-bold text-gray-800">{project.name}</h1>
