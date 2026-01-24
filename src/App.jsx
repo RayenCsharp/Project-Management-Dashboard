@@ -1,5 +1,5 @@
 import './App.css'
-import { useState } from 'react'
+import { forwardRef, useState } from 'react'
 import { Routes, Route, useLocation} from 'react-router-dom';
 import Dashboard from './pages/Dashboard.jsx';
 import Projects from './pages/Projects.jsx';
@@ -39,10 +39,7 @@ function App() {
       description: "Launch a new marketing campaign for the summer season to boost sales.",
       status: "Completed",
       createdAt: new Date("2026-01-15"),
-      tasks: [
-        { id: 1, title: "Content Creation", completed: true },
-        { id: 2, title: "Social Media Ads", completed: true }
-      ]
+      tasks: []
     }
     ]);
 
@@ -57,6 +54,29 @@ function App() {
                 tasks: []
               }]
             );
+    }
+    const addTask = (projectId, newTaskTitle) => {
+      const newTask = {
+        id: Date.now(),
+        title: newTaskTitle,
+        completed: false
+      }
+      setProjects((prev) => prev.map(project => project.id === projectId
+        ? {
+            ...project,
+            tasks: [...project.tasks, newTask]
+          }
+        : project
+      ))
+    }
+    const toggleTask = (projectId, taskId) => {
+      setProjects((prev) => prev.map(project => project.id === projectId
+        ? {
+          ...project,
+          tasks: project.tasks.map(task => task.id === taskId ? {...task, completed: !task.completed} : task)
+        }
+        : project
+      ))
     }
   return (
     <div className="min-h-screen bg-gray-100">
@@ -76,7 +96,7 @@ function App() {
             />
           } 
         />
-        <Route path="/projects/:id" element={<ProjectDetails projects={projects} />} />
+        <Route path="/projects/:id" element={<ProjectDetails projects={projects} addTask={addTask} toggleTask={toggleTask}/>} />
       </Routes>
     </div>
   )
