@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import TaskItem from "../components/TaskItem";
+import ProgressBar from "../components/ProgressBar";
 import { useState } from "react";
 const ProjectDetails = ({ projects, addTask, toggleTask }) => {
     const [newTaskTitle, setNewTaskTitle] = useState("")
@@ -24,6 +25,13 @@ const ProjectDetails = ({ projects, addTask, toggleTask }) => {
             </div>
         )
     }
+    const tasksProgress = (tasks) => {
+        const totalTasks = tasks.length
+        if (totalTasks === 0) return 0
+        const completedTasks = tasks.filter(task => task.completed === true).length
+        const progress = Math.round(completedTasks / totalTasks * 100);
+        return progress
+    }
     return (
          <div className="p-6 max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-6">
@@ -46,6 +54,10 @@ const ProjectDetails = ({ projects, addTask, toggleTask }) => {
                 <p className="text-sm text-gray-500">
                     Created on: <span className="font-medium">{project.createdAt.toLocaleDateString()}</span>
                 </p>
+            </div>
+            <h3 className="text-xl font-bold mt-6 mb-2">Progress</h3>
+            <div className="mt-2 justify-items-center">
+                <ProgressBar value={tasksProgress(project.tasks)} />
             </div>
             <div className="mt-8">
                 <div className="flex justify-between items-center p-3 mb-4">

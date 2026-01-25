@@ -37,7 +37,7 @@ function App() {
       id: 3,
       name: "Marketing Campaign",
       description: "Launch a new marketing campaign for the summer season to boost sales.",
-      status: "Completed",
+      status: "Planned",
       createdAt: new Date("2026-01-15"),
       tasks: []
     }
@@ -55,27 +55,40 @@ function App() {
               }]
             );
     }
+    const getProjectStatusFromTasks = (tasks) => {
+      if (tasks.length === 0) return "Planned"
+      const completedTasks = tasks.filter(task => task.completed).length
+      if (completedTasks === tasks.length) return "Completed"
+      return "In Progress"
+    }
     const addTask = (projectId, newTaskTitle) => {
       const newTask = {
         id: Date.now(),
         title: newTaskTitle,
         completed: false
       }
-      setProjects((prev) => prev.map(project => project.id === projectId
-        ? {
-            ...project,
-            tasks: [...project.tasks, newTask]
-          }
-        : project
+      setProjects((prev) => prev.map(project => {
+        if (projectId !== project.id) return project
+        const updatedTasks = [...project.tasks, newTask]
+        return {
+          ...project,
+          tasks: updatedTasks,
+          status: getProjectStatusFromTasks(updatedTasks)
+        } 
+      }
       ))
     }
     const toggleTask = (projectId, taskId) => {
-      setProjects((prev) => prev.map(project => project.id === projectId
-        ? {
-          ...project,
-          tasks: project.tasks.map(task => task.id === taskId ? {...task, completed: !task.completed} : task)
+      setProjects((prev) => prev.map(project => 
+        {
+          if (project.id !== projectId) return project
+          const updatedTasks = project.tasks.map(task => task.id === taskId ? {...task, completed: !task.completed} : task)
+          return {
+            ...project,
+            tasks: updatedTasks,
+            status: getProjectStatusFromTasks(updatedTasks)
+          }
         }
-        : project
       ))
     }
   return (

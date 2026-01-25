@@ -26,7 +26,7 @@ const AddProjectModal = ({ onClose, onAddProject }) => {
     }
 
   return (
-    <div className="fixed bg-black/50 inset-0 flex items-center justify-center" onClick={() => { onClose(); resetForm(); }}>
+    <div className="fixed bg-black/50 inset-0 flex items-center justify-center z-50" onClick={() => { onClose(); resetForm(); }}>
         <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-md" onClick={(e) => {e.stopPropagation()}}>
             <h2 className="text-xl font-semibold mb-4">Add New Project</h2>
             <form onSubmit={handleSubmit}>
