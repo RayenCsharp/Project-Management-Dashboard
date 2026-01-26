@@ -2,8 +2,10 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import TaskItem from "../components/TaskItem";
 import ProgressBar from "../components/ProgressBar";
+import EditProjectModal from "../components/EditProjectModal";
 import { useState } from "react";
-const ProjectDetails = ({ projects, addTask, toggleTask }) => {
+const ProjectDetails = ({ projects, addTask, toggleTask, deleteTask, editProject }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const [newTaskTitle, setNewTaskTitle] = useState("")
     const handleAddTask = () => {
         if (!newTaskTitle.trim()) {
@@ -34,6 +36,7 @@ const ProjectDetails = ({ projects, addTask, toggleTask }) => {
     }
     return (
          <div className="p-6 max-w-4xl mx-auto">
+            {isModalOpen && <EditProjectModal project={project} onClose={() => setIsModalOpen(false)} onEditProject={editProject} />}
             <div className="flex items-center gap-4 mb-6">
                 <button
                 className=" bg-blue-500 hover:bg-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition cursor-pointer"
@@ -54,6 +57,7 @@ const ProjectDetails = ({ projects, addTask, toggleTask }) => {
                 <p className="text-sm text-gray-500">
                     Created on: <span className="font-medium">{project.createdAt.toLocaleDateString()}</span>
                 </p>
+                <button onClick={() => setIsModalOpen(true)} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 justify-self-end">Edit</button>
             </div>
             <h3 className="text-xl font-bold mt-6 mb-2">Progress</h3>
             <div className="mt-2 justify-items-center">
@@ -70,7 +74,7 @@ const ProjectDetails = ({ projects, addTask, toggleTask }) => {
                 ) : (
                     <div className="space-y-2">
                         {project.tasks.map(task => (
-                            <TaskItem key={task.id} task={task} toggleTask = {() => toggleTask(project.id, task.id)}/>
+                            <TaskItem key={task.id} task={task} toggleTask={() => toggleTask(project.id, task.id)} deleteTask={() => deleteTask(project.id, task.id)}/>
                         ))}
                     </div>
                 )}

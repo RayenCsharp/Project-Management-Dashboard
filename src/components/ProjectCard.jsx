@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import ProgressBar from "./ProgressBar";
 
-const ProjectCard = ({ project }) => {
+const ProjectCard = ({ project, onDelete }) => {
     const tasksProgress = (tasks) => {
         const totalTasks = tasks.length
         if (totalTasks === 0) return 0
@@ -25,7 +25,10 @@ const ProjectCard = ({ project }) => {
             <p className="text-gray-700 mb-4">{project.description}</p>
             <p className="text-sm text-gray-500 mb-6">Created on: {project.createdAt.toLocaleDateString()}</p>
             <ProgressBar value={tasksProgress(project.tasks)}/>
-            <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 cursor-pointer self-end mt-4" onClick={() => navigate(`/projects/${project.id}`)}>View Details</button>
+            <div className="mt-4 flex items-center justify-between">
+                <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 cursor-pointer" onClick={() => onDelete(project.id)}>Delete</button>
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 cursor-pointer " onClick={() => navigate(`/projects/${project.id}`)}>View Details</button>
+            </div>
         </div>
     )
 }

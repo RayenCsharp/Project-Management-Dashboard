@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar.jsx';
 import AddProjectModal from '../components/AddProjectModal.jsx';
 import ProjectCard from '../components/ProjectCard.jsx';
 
-const Projects = ({ projects, setProjects }) => {
+const Projects = ({ projects, setProjects, onDelete }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedStatus, setSelectedStatus] = useState("");
 
@@ -56,7 +56,7 @@ const Projects = ({ projects, setProjects }) => {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
                             {filteredProjects.map((project) => (
-                            <ProjectCard key={project.id} project={project} />
+                            <ProjectCard key={project.id} project={project} onDelete={onDelete}/>
                             ))}
                         </div>
                     )

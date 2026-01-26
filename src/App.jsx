@@ -78,6 +78,18 @@ function App() {
       }
       ))
     }
+    const deleteProject = (projectId) => {
+      setProjects(prev =>prev.filter(project => project.id !== projectId))
+    }
+    const editProject = (projectId, updatedData) => {
+      setProjects(prev => prev.map(project => project.id === projectId 
+        ? {
+          ...project,
+          ...updatedData
+        }
+        : project
+      ))
+    }
     const toggleTask = (projectId, taskId) => {
       setProjects((prev) => prev.map(project => 
         {
@@ -91,6 +103,18 @@ function App() {
         }
       ))
     }
+    const deleteTask = (projectId, taskId) => {
+      setProjects(prev => prev.map(project =>
+        {
+          if (project.id !== projectId) return project
+          const updatedTasks = project.tasks.filter(task => task.id !== taskId)
+          return {
+            ...project,
+            tasks: updatedTasks,
+            status: getProjectStatusFromTasks(updatedTasks)
+          }
+        }))
+    }
   return (
     <div className="min-h-screen bg-gray-100">
       {!hideNavbar && <Navbar onAddProject={() => setIsModalOpen(true)}/>}
@@ -98,18 +122,19 @@ function App() {
       <Routes>
         <Route 
           path="/" 
-          element={<Dashboard projects={projects} setProjects={setProjects}/>} 
+          element={<Dashboard projects={projects} setProjects={setProjects} onDelete={deleteProject}/>} 
         />
         <Route 
           path="/projects" 
           element={
             <Projects 
               projects={projects} 
-              setProjects={setProjects} 
+              setProjects={setProjects}
+              onDelete={deleteProject}
             />
           } 
         />
-        <Route path="/projects/:id" element={<ProjectDetails projects={projects} addTask={addTask} toggleTask={toggleTask}/>} />
+        <Route path="/projects/:id" element={<ProjectDetails projects={projects} addTask={addTask} toggleTask={toggleTask} deleteTask={deleteTask} editProject={editProject}/>} />
       </Routes>
     </div>
   )
