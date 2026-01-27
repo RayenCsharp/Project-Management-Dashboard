@@ -1,5 +1,5 @@
 import './App.css'
-import { forwardRef, useState } from 'react'
+import { forwardRef, useState, useEffect } from 'react'
 import { Routes, Route, useLocation} from 'react-router-dom';
 import Dashboard from './pages/Dashboard.jsx';
 import Projects from './pages/Projects.jsx';
@@ -10,111 +10,84 @@ import ProjectDetails from './pages/ProjectDetails.jsx';
 function App() {
   const location = useLocation();
   const hideNavbar = location.pathname.startsWith("/projects/");
-  const [projects, setProjects] = useState([
-    {
-      id: 1,
-      name: "Website Redesign",
-      description: "Redesign the corporate website to improve user experience and update branding.",
-      status: "In Progress",
-      createdAt: new Date("2026-01-20"),
-      tasks: [
-        { id: 1, title: "Wireframes", completed: true },
-        { id: 2, title: "Mockups", completed: false }
-      ]
-    },
-    {
-      id: 2,
-      name: "Mobile App Development",
-      description: "Develop a mobile application for our e-commerce platform to reach more customers.",
-      status: "Planned",
-      createdAt: new Date("2026-01-25"),
-      tasks: [
-        { id: 1, title: "Requirement Gathering", completed: false },
-        { id: 2, title: "Prototype Design", completed: false }
-      ]
-    },
-    {
-      id: 3,
-      name: "Marketing Campaign",
-      description: "Launch a new marketing campaign for the summer season to boost sales.",
-      status: "Planned",
-      createdAt: new Date("2026-01-15"),
-      tasks: []
-    }
-    ]);
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const addProject = (newProject) => {
-            setProjects((prev) => [...prev, { 
-                id: Date.now(),
-                name: newProject.projectName,
-                description: newProject.projectDescription,
-                status: newProject.projectStatus,
-                createdAt: new Date(),
-                tasks: []
-              }]
-            );
-    }
-    const getProjectStatusFromTasks = (tasks) => {
-      if (tasks.length === 0) return "Planned"
-      const completedTasks = tasks.filter(task => task.completed).length
-      if (completedTasks === tasks.length) return "Completed"
-      return "In Progress"
-    }
-    const addTask = (projectId, newTaskTitle) => {
-      const newTask = {
+  const [projects, setProjects] = useState(() => {
+    const saved = localStorage.getItem("projects");
+    return saved ? JSON.parse(saved) : [];
+  });
+  useEffect(() => {
+    localStorage.setItem("projects", JSON.stringify(projects));}, [projects]
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const addProject = (newProject) => {
+    setProjects((prev) => [...prev, { 
         id: Date.now(),
-        title: newTaskTitle,
-        completed: false
+        name: newProject.projectName,
+        description: newProject.projectDescription,
+        status: newProject.projectStatus,
+        createdAt: new Date(),
+        tasks: []
+      }]
+    );
+  }
+  const getProjectStatusFromTasks = (tasks) => {
+    if (tasks.length === 0) return "Planned"
+    const completedTasks = tasks.filter(task => task.completed).length
+    if (completedTasks === tasks.length) return "Completed"
+    return "In Progress"
+  }
+  const addTask = (projectId, newTaskTitle) => {
+    const newTask = {
+      id: Date.now(),
+      title: newTaskTitle,
+      completed: false
+    }
+  setProjects((prev) => prev.map(project => {
+    if (projectId !== project.id) return project
+    const updatedTasks = [...project.tasks, newTask]
+    return {
+      ...project,
+      tasks: updatedTasks,
+      status: getProjectStatusFromTasks(updatedTasks)
+    } 
+  }))
+  }
+  const deleteProject = (projectId) => {
+    setProjects(prev =>prev.filter(project => project.id !== projectId))
+  }
+  const editProject = (projectId, updatedData) => {
+    setProjects(prev => prev.map(project => project.id === projectId 
+      ? {
+        ...project,
+        ...updatedData
       }
-      setProjects((prev) => prev.map(project => {
-        if (projectId !== project.id) return project
-        const updatedTasks = [...project.tasks, newTask]
+      : project
+    ))
+  }
+  const toggleTask = (projectId, taskId) => {
+    setProjects((prev) => prev.map(project => 
+      {
+        if (project.id !== projectId) return project
+        const updatedTasks = project.tasks.map(task => task.id === taskId ? {...task, completed: !task.completed} : task)
         return {
           ...project,
           tasks: updatedTasks,
           status: getProjectStatusFromTasks(updatedTasks)
-        } 
+        }
       }
-      ))
-    }
-    const deleteProject = (projectId) => {
-      setProjects(prev =>prev.filter(project => project.id !== projectId))
-    }
-    const editProject = (projectId, updatedData) => {
-      setProjects(prev => prev.map(project => project.id === projectId 
-        ? {
+    ))
+  }
+  const deleteTask = (projectId, taskId) => {
+    setProjects(prev => prev.map(project =>
+      {
+        if (project.id !== projectId) return project
+        const updatedTasks = project.tasks.filter(task => task.id !== taskId)
+        return {
           ...project,
-          ...updatedData
+          tasks: updatedTasks,
+          status: getProjectStatusFromTasks(updatedTasks)
         }
-        : project
-      ))
-    }
-    const toggleTask = (projectId, taskId) => {
-      setProjects((prev) => prev.map(project => 
-        {
-          if (project.id !== projectId) return project
-          const updatedTasks = project.tasks.map(task => task.id === taskId ? {...task, completed: !task.completed} : task)
-          return {
-            ...project,
-            tasks: updatedTasks,
-            status: getProjectStatusFromTasks(updatedTasks)
-          }
-        }
-      ))
-    }
-    const deleteTask = (projectId, taskId) => {
-      setProjects(prev => prev.map(project =>
-        {
-          if (project.id !== projectId) return project
-          const updatedTasks = project.tasks.filter(task => task.id !== taskId)
-          return {
-            ...project,
-            tasks: updatedTasks,
-            status: getProjectStatusFromTasks(updatedTasks)
-          }
-        }))
-    }
+      }))
+  }
   return (
     <div className="min-h-screen bg-gray-100">
       {!hideNavbar && <Navbar onAddProject={() => setIsModalOpen(true)}/>}
