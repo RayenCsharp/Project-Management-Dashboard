@@ -1,5 +1,5 @@
 import './App.css'
-import { forwardRef, useState, useEffect } from 'react'
+import {  useState, useEffect } from 'react'
 import { Routes, Route, useLocation} from 'react-router-dom';
 import Dashboard from './pages/Dashboard.jsx';
 import Projects from './pages/Projects.jsx';
@@ -24,7 +24,7 @@ function App() {
         name: newProject.projectName,
         description: newProject.projectDescription,
         status: newProject.projectStatus,
-        createdAt: new Date(),
+        createdAt: new Date().toLocaleDateString("en-CA"),
         tasks: []
       }]
     );
@@ -58,7 +58,8 @@ function App() {
     setProjects(prev => prev.map(project => project.id === projectId 
       ? {
         ...project,
-        ...updatedData
+        ...updatedData,
+        createdAt: project.createdAt
       }
       : project
     ))
@@ -95,14 +96,14 @@ function App() {
       <Routes>
         <Route 
           path="/" 
-          element={<Dashboard projects={projects} setProjects={setProjects} onDelete={deleteProject}/>} 
+          element={<Dashboard projects={projects} addProject={addProject} onDelete={deleteProject}/>} 
         />
         <Route 
           path="/projects" 
           element={
             <Projects 
               projects={projects} 
-              setProjects={setProjects}
+              addProject={addProject}
               onDelete={deleteProject}
             />
           } 

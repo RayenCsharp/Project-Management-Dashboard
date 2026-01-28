@@ -1,24 +1,12 @@
-import { Navigate, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import AddProjectModal from '../components/AddProjectModal.jsx'
-import Navbar from '../components/Navbar.jsx'
 import StatCard from '../components/StatCard.jsx'
 import ProjectCard from '../components/ProjectCard.jsx'
-import { use, useState } from 'react'
+import { useState } from 'react'
 
-const Dashboard = ({ projects, setProjects, onDelete}) => {
+const Dashboard = ({ projects, addProject, onDelete}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
-
-    const addProject = (newProject) => {
-        setProjects((prev) => [...prev, { 
-            id: Date.now(),
-            name: newProject.projectName,
-            description: newProject.projectDescription,
-            status: newProject.projectStatus,
-            createdAt: new Date(),
-            tasks: []
-        }]);
-    }
 
     return (
         <div>

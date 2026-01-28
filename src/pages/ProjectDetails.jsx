@@ -7,6 +7,10 @@ import { useState } from "react";
 const ProjectDetails = ({ projects, addTask, toggleTask, deleteTask, editProject }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newTaskTitle, setNewTaskTitle] = useState("")
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const project = projects.find(p => p.id === Number(id));
+    
     const handleAddTask = () => {
         if (!newTaskTitle.trim()) {
             setNewTaskTitle("");
@@ -16,10 +20,6 @@ const ProjectDetails = ({ projects, addTask, toggleTask, deleteTask, editProject
         addTask(project.id, newTaskTitle);
         setNewTaskTitle("");
     };
-
-    const navigate = useNavigate();
-    const { id } = useParams();
-    const project = projects.find(p => p.id === Number(id));
     if (!project) {
         return (
             <div className="p-6 flex justify-center items-center h-screen">
@@ -55,7 +55,7 @@ const ProjectDetails = ({ projects, addTask, toggleTask, deleteTask, editProject
                 </div>
                 <p className="text-gray-600">{project.description}</p>
                 <p className="text-sm text-gray-500">
-                    Created on: <span className="font-medium">{project.createdAt.toLocaleDateString()}</span>
+                    Created on: <span className="font-medium">{project.createdAt}</span>
                 </p>
                 <button onClick={() => setIsModalOpen(true)} className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 justify-self-end">Edit</button>
             </div>

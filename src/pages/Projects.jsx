@@ -1,23 +1,12 @@
 import { useState } from 'react';
-import Navbar from '../components/Navbar.jsx';
 import AddProjectModal from '../components/AddProjectModal.jsx';
 import ProjectCard from '../components/ProjectCard.jsx';
 
-const Projects = ({ projects, setProjects, onDelete }) => {
+const Projects = ({ projects, addProject, onDelete }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedStatus, setSelectedStatus] = useState("");
 
-        const addProject = (newProject) => {
-            setProjects((prev) => [...prev, { 
-                id: Date.now(),
-                name: newProject.projectName,
-                description: newProject.projectDescription,
-                status: newProject.projectStatus,
-                createdAt: new Date(),
-                tasks: []
-            }]);
-        }
-        const filteredProjects = selectedStatus ? projects.filter(p => p.status === selectedStatus) : projects;
+    const filteredProjects = selectedStatus ? projects.filter(p => p.status === selectedStatus) : projects;
     return (
         <div>
             {isModalOpen && <AddProjectModal onClose={() => setIsModalOpen(false)} onAddProject={addProject} />}

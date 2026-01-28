@@ -8,7 +8,7 @@ const ProgressBar = ({ value }) => {
     <div className="w-full z-10">
       <div className="relative w-full bg-gray-200 rounded-full h-4 overflow-hidden">
         <div className={`h-full transition-all duration-300 ${getColor(value)}`} style={{ width: `${value}%` }}/>
-        <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-semibold text-blac">{value}%</span>
+        <span className="absolute right-2 top-1/2 -translate-y-1/2 text-xs font-semibold text-black">{value}%</span>
       </div>
     </div>
   );
