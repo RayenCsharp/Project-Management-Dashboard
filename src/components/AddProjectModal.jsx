@@ -33,7 +33,7 @@ const AddProjectModal = ({ onClose, onAddProject }) => {
                 <div className="space-y-4">
                     <input className="w-full border rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" type="text" placeholder="Project name" value={projectName} onChange={(e) => setProjectName(e.target.value)}/>
                     <textarea className="w-full border rounded-lg p-2 h-24 resize-none focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Project description" value={projectDescription} onChange={(e) => setProjectDescription(e.target.value)}></textarea>
-                    <select className="w-full border rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" value={projectStatus} onChange={(e) => setProjectStatus(e.target.value)}>
+                    <select className="w-2/3 sm:w-full border rounded-lg p-2 focus:outline-none focus:ring-1 focus:ring-blue-500" value={projectStatus} onChange={(e) => setProjectStatus(e.target.value)}>
                         <option value="Planned">Planned</option>
                         <option value="In Progress">In Progress</option>
                         <option value="Completed">Completed</option>

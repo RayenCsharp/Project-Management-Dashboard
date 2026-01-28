@@ -13,7 +13,7 @@ const ProjectCard = ({ project, onDelete }) => {
     return (
         <div className="bg-gray-100 shadow-md rounded-lg p-6 w-full max-w-sm flex flex-col">
             <div className="flex items-center justify-between mb-4">
-                <h2 className="font-semibold text-gray-800">{project.name}</h2>
+                <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 break-words">{project.name}</h2>
                 {project.status === "Completed" ? (
                     <span className="bg-green-500 text-white px-2 py-1 rounded-full text-xs">Completed</span>
                 ) : project.status === "In Progress" ? (
@@ -22,7 +22,7 @@ const ProjectCard = ({ project, onDelete }) => {
                     <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs">Planned</span>
                 )}
             </div>
-            <p className="text-gray-700 mb-4">{project.description}</p>
+            <p className="text-sm sm:text-base text-gray-600 mb-2 break-words">{project.description}</p>
             <p className="text-sm text-gray-500 mb-6">Created on: {project.createdAt}</p>
             <ProgressBar value={tasksProgress(project.tasks)}/>
             <div className="mt-4 flex items-center justify-between">

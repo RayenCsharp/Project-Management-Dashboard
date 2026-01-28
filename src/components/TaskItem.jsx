@@ -1,9 +1,9 @@
 const TaskItem = ({ task, toggleTask, deleteTask }) => {
     return (
-        <div className="flex items-center space-x-2 p-2 shadow-md border rounded-lg bg-gray-50 cursor-pointer hover:bg-gray-100" onClick={toggleTask}>
-            <input type="checkbox" checked={task.completed} readOnly/>
-            <span className={task.completed ? "ml-2 text-green-500" : "ml-2 text-red-500"}>{task.title}</span>
-            <button onClick={(e) => { e.stopPropagation(); deleteTask(); }} className="ml-auto bg-gray-300 p-1.5 rounded-lg text-blue-500 hover:text-red-500 cursor-pointer">X</button>
+        <div className="flex items-center gap-3 p-3 border rounded-lg bg-white hover:bg-gray-50 transition cursor-pointer" onClick={toggleTask}>
+            <input type="checkbox" checked={task.completed} readOnly className="cursor-pointer"/>
+            <span className={`flex-1 ${task.completed ? "line-through text-gray-400" : "text-gray-800"}`}>{task.title}</span>
+            <button onClick={(e) => { e.stopPropagation(); deleteTask(); }} className="p-1.5 rounded hover:bg-red-100 text-gray-400 hover:text-red-500 transition">✕</button>
         </div>
     )
 }
