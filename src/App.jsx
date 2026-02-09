@@ -8,30 +8,50 @@ import AddProjectModal from './components/AddProjectModal.jsx';
 import ProjectDetails from './pages/ProjectDetails.jsx';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
+import { getProjects, createProject, updateProject, deleteProjectApi } from "./services/projectsService";
+
 
 
 function App() {
   const location = useLocation();
   const hideNavbar = location.pathname.startsWith("/projects/") || location.pathname === "/";
-  const [projects, setProjects] = useState(() => {
-    const saved = localStorage.getItem("projects");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    localStorage.setItem("projects", JSON.stringify(projects));}, [projects]
-  );
+    const fetchProjects = async () => {
+      try {
+        const data = await getProjects();
+        setProjects(data);
+      } catch (err) {
+        setError("Failed to fetch projects");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const addProject = (newProject) => {
-    setProjects((prev) => [...prev, { 
-        id: Date.now(),
-        name: newProject.projectName,
-        description: newProject.projectDescription,
-        status: newProject.projectStatus,
-        createdAt: new Date().toLocaleDateString("en-CA"),
-        tasks: []
-      }]
-    );
-  }
+  const addProject = async (newProject) => {
+    const projectToSave = {
+      name: newProject.projectName,
+      description: newProject.projectDescription,
+      status: newProject.projectStatus,
+      createdAt: new Date().toISOString().split("T")[0],
+      tasks: []
+    };
+    const savedProject = await createProject(projectToSave);
+    setProjects(prev => [...prev, savedProject]);
+  };
+
+  const deleteProject = async (projectId) => {
+    await deleteProjectApi(projectId);
+    setProjects(prev => prev.filter(project => project.id !== projectId));
+  };
+
   const getProjectStatusFromTasks = (tasks) => {
     if (tasks.length === 0) return "Planned"
     const completedTasks = tasks.filter(task => task.completed).length
@@ -53,9 +73,6 @@ function App() {
       status: getProjectStatusFromTasks(updatedTasks)
     } 
   }))
-  }
-  const deleteProject = (projectId) => {
-    setProjects(prev =>prev.filter(project => project.id !== projectId))
   }
   const editProject = (projectId, updatedData) => {
     setProjects(prev => prev.map(project => project.id === projectId 

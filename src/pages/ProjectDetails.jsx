@@ -9,7 +9,7 @@ const ProjectDetails = ({ projects, addTask, toggleTask, deleteTask, editProject
     const [newTaskTitle, setNewTaskTitle] = useState("")
     const navigate = useNavigate();
     const { id } = useParams();
-    const project = projects.find(p => p.id === Number(id));
+    const project = projects.find(p => String(p.id) === id);
     
     const handleAddTask = () => {
         if (!newTaskTitle.trim()) {
@@ -23,7 +23,7 @@ const ProjectDetails = ({ projects, addTask, toggleTask, deleteTask, editProject
     if (!project) {
         return (
             <div className="p-6 flex justify-center items-center h-screen">
-                <p className="text-gray-600 text-lg">Project not found.</p>
+                <p className="text-gray-600 text-lg">Loading...</p>
             </div>
         )
     }
