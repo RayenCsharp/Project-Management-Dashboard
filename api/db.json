@@ -1,0 +1,20 @@
+{
+  "projects": [
+    {
+      "id": 1,
+      "name": "Portfolio Website",
+      "description": "Personal developer portfolio",
+      "status": "Planned",
+      "createdAt": "2025-01-15",
+      "tasks": []
+    },
+    {
+      "id": 2,
+      "name": "React Dashboard",
+      "description": "Project management dashboard",
+      "status": "In Progress",
+      "createdAt": "2025-02-01",
+      "tasks": []
+    }
+  ]
+}
