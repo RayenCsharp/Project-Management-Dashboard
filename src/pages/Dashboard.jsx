@@ -3,8 +3,11 @@ import AddProjectModal from '../components/AddProjectModal.jsx'
 import StatCard from '../components/StatCard.jsx'
 import ProjectCard from '../components/ProjectCard.jsx'
 import { useState } from 'react'
+import useProjects from "../hooks/useProjects";
 
-const Dashboard = ({ projects, addProject, onDelete}) => {
+
+const Dashboard = () => {
+    const {projects, addProject, deleteProject} = useProjects();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const navigate = useNavigate();
 
@@ -41,7 +44,7 @@ const Dashboard = ({ projects, addProject, onDelete}) => {
                 ) : (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
                         {projects.slice(-3).reverse().map((project) => (
-                            <ProjectCard key={project.id} project={project} onDelete={onDelete}/>
+                            <ProjectCard key={project.id} project={project} onDelete={deleteProject}/>
                         ))}
                         {
                             projects.length > 3 && (

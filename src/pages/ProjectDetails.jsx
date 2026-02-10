@@ -4,7 +4,9 @@ import TaskItem from "../components/TaskItem";
 import ProgressBar from "../components/ProgressBar";
 import EditProjectModal from "../components/EditProjectModal";
 import { useState } from "react";
-const ProjectDetails = ({ projects, addTask, toggleTask, deleteTask, editProject }) => {
+import useProjects from "../hooks/useProjects";
+const ProjectDetails = () => {
+    const {projects, addTask, toggleTask, deleteTask, editProject} = useProjects();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [newTaskTitle, setNewTaskTitle] = useState("")
     const navigate = useNavigate();

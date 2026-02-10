@@ -1,11 +1,19 @@
 {
   "projects": [
     {
-      "id": "1",
-      "name": "Portfolio Website",
-      "description": "Personal developer portfolio",
+      "id": "2",
+      "name": "E-commerce App",
+      "description": "Online store for electronics",
       "status": "Planned",
-      "createdAt": "2025-01-15",
+      "createdAt": "2025-02-01",
+      "tasks": []
+    },
+    {
+      "id": "3",
+      "name": "Platform",
+      "description": "Multi-user blogging platform",
+      "status": "Planned",
+      "createdAt": "2025-01-10",
       "tasks": []
     }
   ]

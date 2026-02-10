@@ -1,6 +1,8 @@
 import { useState } from "react";
+import useProjects from "../hooks/useProjects";
 
-const AddProjectModal = ({ onClose, onAddProject }) => {
+const AddProjectModal = ({ onClose }) => {
+    const { addProject } = useProjects();
     const [projectName, setProjectName] = useState("");
     const [projectDescription, setProjectDescription] = useState("");
     const [projectStatus, setProjectStatus] = useState("Planned");
@@ -8,7 +10,7 @@ const AddProjectModal = ({ onClose, onAddProject }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!projectName || !projectDescription) return;
-        onAddProject(
+        addProject(
             {
                 projectName,
                 projectDescription,

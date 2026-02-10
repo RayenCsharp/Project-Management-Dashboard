@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import AddProjectModal from '../components/AddProjectModal.jsx';
 import ProjectCard from '../components/ProjectCard.jsx';
+import useProjects from "../hooks/useProjects";
 
-const Projects = ({ projects, addProject, onDelete }) => {
+const Projects = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedStatus, setSelectedStatus] = useState("");
-
+    const {projects, addProject, deleteProject} = useProjects();
     const filteredProjects = selectedStatus ? projects.filter(p => p.status === selectedStatus) : projects;
     return (
         <div>
@@ -45,7 +46,7 @@ const Projects = ({ projects, addProject, onDelete }) => {
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
                             {filteredProjects.map((project) => (
-                            <ProjectCard key={project.id} project={project} onDelete={onDelete}/>
+                            <ProjectCard key={project.id} project={project} onDelete={deleteProject}/>
                             ))}
                         </div>
                     )
