@@ -1,5 +1,5 @@
 import './App.css'
-import {  useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Routes, Route, useLocation} from 'react-router-dom';
 import Dashboard from './pages/Dashboard.jsx';
 import Projects from './pages/Projects.jsx';
@@ -8,107 +8,16 @@ import AddProjectModal from './components/AddProjectModal.jsx';
 import ProjectDetails from './pages/ProjectDetails.jsx';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
-import { getProjects, createProject, updateProject, deleteProjectApi } from "./services/projectsService";
+import { useContext } from "react";
+import { ProjectsContext } from "./context/ProjectsContext";
 
 
 
 function App() {
   const location = useLocation();
   const hideNavbar = location.pathname.startsWith("/projects/") || location.pathname === "/";
-  const [projects, setProjects] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchProjects = async () => {
-      try {
-        const data = await getProjects();
-        setProjects(data);
-      } catch (err) {
-        setError("Failed to fetch projects");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProjects();
-  }, []);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const addProject = async (newProject) => {
-    const projectToSave = {
-      name: newProject.projectName,
-      description: newProject.projectDescription,
-      status: newProject.projectStatus,
-      createdAt: new Date().toISOString().split("T")[0],
-      tasks: []
-    };
-    const savedProject = await createProject(projectToSave);
-    setProjects(prev => [...prev, savedProject]);
-  };
-
-  const deleteProject = async (projectId) => {
-    await deleteProjectApi(projectId);
-    setProjects(prev => prev.filter(project => project.id !== projectId));
-  };
-
-  const getProjectStatusFromTasks = (tasks) => {
-    if (tasks.length === 0) return "Planned"
-    const completedTasks = tasks.filter(task => task.completed).length
-    if (completedTasks === tasks.length) return "Completed"
-    return "In Progress"
-  }
-  const addTask = (projectId, newTaskTitle) => {
-    const newTask = {
-      id: Date.now(),
-      title: newTaskTitle,
-      completed: false
-    }
-  setProjects((prev) => prev.map(project => {
-    if (projectId !== project.id) return project
-    const updatedTasks = [...project.tasks, newTask]
-    return {
-      ...project,
-      tasks: updatedTasks,
-      status: getProjectStatusFromTasks(updatedTasks)
-    } 
-  }))
-  }
-  const editProject = (projectId, updatedData) => {
-    setProjects(prev => prev.map(project => project.id === projectId 
-      ? {
-        ...project,
-        ...updatedData,
-        createdAt: project.createdAt
-      }
-      : project
-    ))
-  }
-  const toggleTask = (projectId, taskId) => {
-    setProjects((prev) => prev.map(project => 
-      {
-        if (project.id !== projectId) return project
-        const updatedTasks = project.tasks.map(task => task.id === taskId ? {...task, completed: !task.completed} : task)
-        return {
-          ...project,
-          tasks: updatedTasks,
-          status: getProjectStatusFromTasks(updatedTasks)
-        }
-      }
-    ))
-  }
-  const deleteTask = (projectId, taskId) => {
-    setProjects(prev => prev.map(project =>
-      {
-        if (project.id !== projectId) return project
-        const updatedTasks = project.tasks.filter(task => task.id !== taskId)
-        return {
-          ...project,
-          tasks: updatedTasks,
-          status: getProjectStatusFromTasks(updatedTasks)
-        }
-      }))
-  }
+  const { projects, addProject, deleteProject, addTask, editProject, toggleTask, deleteTask } = useContext(ProjectsContext);
   return (
     <div className="min-h-screen bg-gray-100">
       {!hideNavbar && <Navbar onAddProject={() => setIsModalOpen(true)}/>}
