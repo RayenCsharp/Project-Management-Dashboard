@@ -1,13 +1,42 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AddProjectModal from '../components/AddProjectModal.jsx';
 import ProjectCard from '../components/ProjectCard.jsx';
 import useProjects from "../hooks/useProjects";
+import DropZone from '../components/DropZone.jsx';
 
 const Projects = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedStatus, setSelectedStatus] = useState("");
-    const {projects, error, loading, addProject, deleteProject} = useProjects();
+    const {projects, error, loading, addProject, deleteProject, updateStatus} = useProjects();
     const filteredProjects = selectedStatus ? projects.filter(p => p.status === selectedStatus) : projects;
+
+    const [isDragging, setIsDragging] = useState(false);
+    const [hoveredStatus, setHoveredStatus] = useState(null);
+
+    useEffect(() => {
+        const handleDragStart = () => {
+            requestAnimationFrame(() => {
+                setIsDragging(true);
+            });
+        };
+        const handleDragEnd = () => {
+            setIsDragging(false);
+            setHoveredStatus(null);
+        };
+
+        window.addEventListener("dragstart", handleDragStart);
+        window.addEventListener("dragend", handleDragEnd);
+
+        return () => {
+            window.removeEventListener("dragstart", handleDragStart);
+            window.removeEventListener("dragend", handleDragEnd);
+        };
+    }, []);
+
+    const handleDropProject = async (projectId, newStatus) => {
+        await updateStatus(projectId, newStatus);
+    };
+
     if (error) {
         return (
             <div className="p-6">
@@ -23,6 +52,21 @@ const Projects = () => {
     }else {
         return (
             <div>
+                {isDragging && (
+                    <div className="fixed inset-0 bg-black/40 z-50">
+                        <div className="grid grid-rows-3 gap-4 w-full h-full p-4">
+                            {["Planned", "In Progress", "Completed"].map(status => (
+                                <DropZone
+                                    key={status}
+                                    status={status}
+                                    hoveredStatus={hoveredStatus}
+                                    setHoveredStatus={setHoveredStatus}
+                                    onDropProject={handleDropProject}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                )}
                 {isModalOpen && <AddProjectModal onClose={() => setIsModalOpen(false)} onAddProject={addProject} />}
                 <main className="p-6">
                     <div className="mb-6 ">

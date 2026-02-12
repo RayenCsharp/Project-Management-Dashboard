@@ -4,16 +4,30 @@
       "id": "2",
       "name": "E-commerce App",
       "description": "Online store for electronics",
-      "status": "Planned",
+      "status": "Completed",
       "createdAt": "2025-02-01",
-      "tasks": []
+      "tasks": [
+        {
+          "id": 1770926536107,
+          "title": "f",
+          "completed": false
+        }
+      ]
     },
     {
       "id": "3",
-      "name": "Platform",
-      "description": "Multi-user blogging platform",
+      "name": "Social Media Platform",
+      "description": "Connect people worldwide",
+      "status": "In Progress",
+      "createdAt": "2025-01-20",
+      "tasks": []
+    },
+    {
+      "id": "4",
+      "name": "Project Management Tool",
+      "description": "Organize and track projects",
       "status": "Planned",
-      "createdAt": "2025-01-10",
+      "createdAt": "2025-01-15",
       "tasks": []
     }
   ]

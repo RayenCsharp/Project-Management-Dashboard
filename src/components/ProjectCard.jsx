@@ -11,7 +11,14 @@ const ProjectCard = ({ project, onDelete }) => {
     }
     const navigate = useNavigate();
     return (
-        <div className="bg-gray-100 shadow-md rounded-lg p-6 w-full max-w-sm flex flex-col">
+        <div className="bg-gray-100 shadow-md rounded-lg p-6 w-full max-w-sm flex flex-col"
+            draggable onDragStart={(e) => {
+                console.log("Dragging project:", project.id);
+                e.dataTransfer.setData("projectId", project.id); 
+                e.dataTransfer.effectAllowed = "move";
+            }}
+            onDragEnd={() => console.log("drag end")}
+        >
             <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 break-words">{project.name}</h2>
                 {project.status === "Completed" ? (

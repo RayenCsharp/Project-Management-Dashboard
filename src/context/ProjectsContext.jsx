@@ -100,6 +100,26 @@ export const ProjectsProvider = ({ children }) => {
         setProjects(prev => prev.map(p => p.id === projectId ? savedProject : p))
     };
 
+    const updateStatus = async (projectId, newStatus) => {
+        const id = String(projectId); // Ensure ID is a string for comparison
+        const existingProject = projects.find(p => p.id === id);
+        if (!existingProject) {
+            console.error("Project not found for ID:", id);
+            return;
+        }
+
+        const updatedProject = {
+            ...existingProject,
+            status: newStatus
+        };
+
+        const savedProject = await updateProject(id, updatedProject);
+        
+        setProjects(prev => {
+            return prev.map(p => p.id === id ? savedProject : p);
+        });
+    }
+
   return (
     <ProjectsContext.Provider
       value={{
@@ -111,7 +131,8 @@ export const ProjectsProvider = ({ children }) => {
         addTask,
         editProject,
         toggleTask,
-        deleteTask
+        deleteTask,
+        updateStatus
       }}
     >
       {children}
