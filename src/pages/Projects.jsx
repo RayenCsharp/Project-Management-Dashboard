@@ -103,7 +103,7 @@ const Projects = () => {
                         ) : (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
                                 {filteredProjects.map((project) => (
-                                <ProjectCard key={project.id} project={project} onDelete={deleteProject}/>
+                                <ProjectCard key={project.id} project={project} onDelete={deleteProject} draggable={true} />
                                 ))}
                             </div>
                         )
