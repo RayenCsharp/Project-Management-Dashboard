@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import AddProjectModal from '../components/AddProjectModal.jsx';
 import ProjectCard from '../components/ProjectCard.jsx';
 import useProjects from "../hooks/useProjects";
@@ -8,8 +8,9 @@ const Projects = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedStatus, setSelectedStatus] = useState("");
     const {projects, error, loading, addProject, deleteProject, updateStatus} = useProjects();
-    const filteredProjects = selectedStatus ? projects.filter(p => p.status === selectedStatus) : projects;
-
+    const filteredProjects = useMemo(() => {
+        return selectedStatus ? projects.filter(project => project.status === selectedStatus) : projects;
+    }, [projects, selectedStatus]);
     const [isDragging, setIsDragging] = useState(false);
     const [hoveredStatus, setHoveredStatus] = useState(null);
 
@@ -33,10 +34,9 @@ const Projects = () => {
         };
     }, []);
 
-    const handleDropProject = async (projectId, newStatus) => {
+    const handleDropProject = useCallback(async (projectId, newStatus) => {
         await updateStatus(projectId, newStatus);
-    };
-
+    }, [updateStatus]);
     if (error) {
         return (
             <div className="p-6">

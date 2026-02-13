@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import AddProjectModal from '../components/AddProjectModal.jsx'
 import StatCard from '../components/StatCard.jsx'
 import ProjectCard from '../components/ProjectCard.jsx'
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import useProjects from "../hooks/useProjects";
 
 
@@ -34,9 +34,9 @@ const Dashboard = () => {
                         <p className="text-gray-600 px-6">Here you can manage your projects and track their progress.</p>
                     </div>
                     <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6 mt-6 justify-items-center'>
-                        <StatCard title="Total Projects" stat={projects.length} />
-                        <StatCard title="Ongoing Projects" stat={projects.filter(p => p.status === "In Progress").length} />
-                        <StatCard title="Completed Projects" stat={projects.filter(p => p.status === "Completed").length} />
+                        <StatCard title="Total Projects" stat={useMemo(() => projects.length, [projects])} />
+                        <StatCard title="Ongoing Projects" stat={useMemo(() => projects.filter(p => p.status === "In Progress").length, [projects])} />
+                        <StatCard title="Completed Projects" stat={useMemo(() => projects.filter(p => p.status === "Completed").length, [projects])} />
                     </div>
                     <div className="mt-8 px-6">
                         <h2 className="text-2xl font-bold mt-6 mb-4">Recent Projects</h2>

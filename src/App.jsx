@@ -9,9 +9,6 @@ import ProjectDetails from './pages/ProjectDetails.jsx';
 import Home from './pages/Home';
 import Contact from './pages/Contact';
 
-
-
-
 function App() {
   const location = useLocation();
   const hideNavbar = location.pathname.startsWith("/projects/") || location.pathname === "/";
