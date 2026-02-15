@@ -1,16 +1,59 @@
-# React + Vite
+# Project Flow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Description
 
-Currently, two official plugins are available:
+Project Flow is a project management web application built using React and Vite.  
+It helps students and professionals organize and manage their projects efficiently through a structured and intuitive interface.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The main goal of this project was to apply modern React architecture principles such as routing strategies, global state management, and custom hooks design.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- Dashboard overview
+- Create, edit, and delete projects
+- Task management system
+- Status tracking
+- Global state management using Context API
+- Custom reusable hooks
+- Structured routing with React Router
+- Responsive design with Tailwind CSS
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Tech Stack
+
+### Frontend
+- React
+- Vite
+- Tailwind CSS
+- React Router
+
+### State Management
+- Context API
+- useState
+- Custom Hook
+
+---
+
+## Architecture Overview
+
+The application follows a component-based architecture:
+
+- Routing is handled using React Router with a structured route hierarchy.
+- Global state is managed using the Context API to avoid prop drilling.
+- Business logic is separated into custom hooks for better reusability.
+- Components are modular and scalable.
+- Vite is used for fast development and optimized builds.
+
+---
+
+## Future Improvements
+
+- User authentication
+- Backend integration
+- Persistent storage
+- Advanced filtering and search
+- Role-based access control
+
